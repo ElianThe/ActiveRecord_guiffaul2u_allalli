@@ -12,6 +12,10 @@ public class PrincipaleJDBC {
 
 	public static void main(String[] args) throws SQLException {
 
+		DBConnection dbConnection = DBConnection.getInstance();
+		Connection connect = DBConnection.getConnect();
+
+/*
 		// variables a modifier en fonction de la base
 		String userName = "root";
 		String password = "";
@@ -30,7 +34,7 @@ public class PrincipaleJDBC {
 		String urlDB = "jdbc:mysql://" + serverName + ":";
 		urlDB += portNumber + "/" + dbName;
 		Connection connect = DriverManager.getConnection(urlDB, connectionProps);
-
+*/
 		// creation de la table Personne
 		{
 			String createString = "CREATE TABLE Personne ( " + "ID INTEGER  AUTO_INCREMENT, "
