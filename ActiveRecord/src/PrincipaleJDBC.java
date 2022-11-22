@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class PrincipaleJDBC {
@@ -78,6 +79,7 @@ public class PrincipaleJDBC {
 			System.out.println();
 		}
 
+		/*
 		// recuperation de toutes les personnes + affichage
 		{
 			System.out.println("4) Recupere les personnes de la table Personne");
@@ -93,6 +95,11 @@ public class PrincipaleJDBC {
 				System.out.println("  -> (" + id + ") " + nom + ", " + prenom);
 			}
 			System.out.println();
+		}*/
+
+		{
+			System.out.println("4) Recupere les personnes de la table Personne");
+			ArrayList<Personne> personnes = Personne.findAll();
 		}
 
 		// suppression de la personne 1
