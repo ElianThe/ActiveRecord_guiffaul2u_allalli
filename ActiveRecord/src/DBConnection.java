@@ -7,6 +7,8 @@ public class DBConnection {
     private static DBConnection instance;
     private static Connection connect;
 
+    private String dbname;
+
     private DBConnection() throws SQLException {
         // variables a modifier en fonction de la base
         String userName = "root";
@@ -15,9 +17,14 @@ public class DBConnection {
         //Attention, sous MAMP, le port est 8889
         String portNumber = "3306";
         String tableName = "personne";
+        String dbName;
 
-        // iL faut une base nommee testPersonne !
-        String dbName = "testpersonne";
+        if (this.dbname == null){
+            // iL faut une base nommee testPersonne !
+            dbName = "testpersonne";
+        } else {
+            dbName = this.dbname;
+        }
 
         // creation de la connection
         Properties connectionProps = new Properties();
@@ -39,8 +46,9 @@ public class DBConnection {
         return connect;
     }
 
-    public void setNomDB(String nomDB){
-        throw new Error("TODO");
+    public void setNomDB(String nomDB) throws SQLException {
+        this.dbname = nomDB;
+        instance = null;
     }
 
 }
