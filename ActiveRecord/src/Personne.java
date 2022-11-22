@@ -61,6 +61,29 @@ public class Personne {
         return pers;
     }
 
+    public ArrayList<Personne> findByName(String name) throws SQLException {
+        // On crée une liste de Personne vide
+        ArrayList<Personne> lPersonnes = new ArrayList<>();
+        // On récupère la connection à la base de données
+        Connection connect = DBConnection.getConnect();
+        // On crée une requête qui Select toutes les Personnes dont le nom vaut name
+        String statement = "SELECT prenom, id FROM Personne WHERE name=?";
+        PreparedStatement ps = connect.prepareStatement(statement);
+        ps.setString(1, name);
+        // On exécute la requête
+        ps.execute();
+        // On récupère les résultats
+        ResultSet rs = ps.getResultSet();
+        // On les parcourt
+        while(rs.next()){
+            String prenom = rs.getString("prenom");
+            int id = rs.getInt("id");
+            Personne pers = new Personne(name, prenom);
+            pers.setId(id);
+        }
+        return lPersonnes;
+    }
+
 
 
 }
