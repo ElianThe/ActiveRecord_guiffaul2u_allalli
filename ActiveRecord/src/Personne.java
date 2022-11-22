@@ -41,10 +41,13 @@ public class Personne {
         return personnes;
     }
 
-    public static Personne findById() throws SQLException {
+    public static Personne findById(int id) throws SQLException {
         Personne pers = null;
-        String SQLPrep = "SELECT * FROM Personne;";
+        String SQLPrep = "SELECT * FROM Personne where id = ?;";
+        DBConnection.getInstance();
+        Connection connect = DBConnection.getConnect();
         PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+        prep1.setInt(1, id);
         prep1.execute();
         ResultSet rs = prep1.getResultSet();
         // s'il y a un resultat
@@ -52,7 +55,6 @@ public class Personne {
         while (rs.next()) {
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
-            int id = rs.getInt("id");
             pers = new Personne(nom, prenom);
             pers.setId(id);
             System.out.println("  -> (" + id + ") " + nom + ", " + prenom);
