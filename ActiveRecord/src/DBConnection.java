@@ -49,6 +49,7 @@ public class DBConnection {
     public void setNomDB(String nomDB) throws SQLException {
         this.dbname = nomDB;
         instance = null;
+        getInstance();
     }
 
 }
