@@ -98,9 +98,11 @@ public class PrincipaleJDBC {
 		}*/
 
 		{
+			//findAll
 			System.out.println("4) Recupere les personnes de la table Personne");
 			ArrayList<Personne> personnes = Personne.findAll();
 		}
+
 
 		// suppression de la personne 1
 		{
@@ -111,7 +113,7 @@ public class PrincipaleJDBC {
 			System.out.println();
 		}
 
-		// recuperation de la seconde personne + affichage
+		/*// recuperation de la seconde personne + affichage
 		{
 			System.out.println("6) Recupere personne d'id 2");
 			String SQLPrep = "SELECT * FROM Personne WHERE id=?;";
@@ -127,7 +129,16 @@ public class PrincipaleJDBC {
 				System.out.println("  -> (" + id + ") " + nom + ", " + prenom);
 			}
 			System.out.println();
+		}*/
+
+		{
+			System.out.println("6) Recupere personne d'id 2");
+			//findById
+			System.out.println("findById");
+			Personne.findById(2);
+			System.out.println();
 		}
+
 
 		// met a jour personne 2
 		{

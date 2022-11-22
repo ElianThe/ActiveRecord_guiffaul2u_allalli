@@ -20,7 +20,6 @@ public class Personne {
 
     public static ArrayList findAll() throws SQLException {
         ArrayList<Personne> personnes = new ArrayList<>();
-        DBConnection db = DBConnection.getInstance();
         Connection connect = DBConnection.getConnect();
 
         String SQLPrep = "SELECT * FROM Personne;";
