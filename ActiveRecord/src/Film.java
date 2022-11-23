@@ -4,6 +4,6 @@ public class Film {
 
     public Film(String titre, Personne real){
         this.titre = titre;
-        this.id_real = real.
+        //this.id_real = real.;
     }
 }

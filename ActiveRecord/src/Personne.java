@@ -14,10 +14,6 @@ public class Personne {
         this.prenom = firstName;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -126,7 +122,7 @@ public class Personne {
         }
     }
 
-    public void update () throws SQLException {
+    private void update () throws SQLException {
         Connection connect = DBConnection.getConnect();
         String statement = "update Personne set nom = ?, prenom = ? where id = ?;";
         PreparedStatement ps = connect.prepareStatement(statement);
@@ -157,9 +153,6 @@ public class Personne {
     }
 
 
-    public int getId() {
-        return id;
-    }
 
     public void setNom(String nom) {
         this.nom = nom;
@@ -175,5 +168,9 @@ public class Personne {
 
     public String getPrenom() {
         return prenom;
+    }
+
+    public int getId() {
+        return id;
     }
 }
