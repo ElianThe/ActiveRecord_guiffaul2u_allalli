@@ -114,6 +114,62 @@ public class Personne {
         System.out.println();
     }
 
+    public void save() throws SQLException {
+        if (id == -1){
+            saveNew();
+        } else {
+            update();
+        }
+    }
+
+    public void update () throws SQLException {
+        Connection connect = DBConnection.getConnect();
+        String statement = "update Personne set nom = ?, prenom = ? where id = ?;";
+        PreparedStatement ps = connect.prepareStatement(statement);
+        ps.setString(1, this.nom);
+        ps.setString(2, this.prenom);
+        ps.setInt(3, this.id);
+        ps.executeUpdate();
+        System.out.println("7) Effectue modification Personne id 2");
+        System.out.println();
+    }
+
+    private void saveNew() throws SQLException {
+        Connection connect = DBConnection.getConnect();
+        String statement = "INSERT INTO Personne(nom, prenom) VALUES (?, ?);";
+        PreparedStatement ps = connect.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, this.nom);
+        ps.setString(2, this.prenom);
+        ps.executeUpdate();
+        int autoInc = -1;
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            autoInc = rs.getInt(1);
+        }
+        this.id = autoInc;
+        System.out.print("  ->  id utilise lors de l'ajout : ");
+        System.out.println(autoInc);
+        System.out.println();
+    }
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
 }

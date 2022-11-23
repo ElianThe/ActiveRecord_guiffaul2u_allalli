@@ -16,91 +16,25 @@ public class PrincipaleJDBC {
 		DBConnection dbConnection = DBConnection.getInstance();
 		Connection connect = DBConnection.getConnect();
 
-/*
-		// variables a modifier en fonction de la base
-		String userName = "root";
-		String password = "";
-		String serverName = "localhost";
-		//Attention, sous MAMP, le port est 8889
-		String portNumber = "3306";
-		String tableName = "personne";
-
-		// iL faut une base nommee testPersonne !
-		String dbName = "testpersonne";
-
-		// creation de la connection
-		Properties connectionProps = new Properties();
-		connectionProps.put("user", userName);
-		connectionProps.put("password", password);
-		String urlDB = "jdbc:mysql://" + serverName + ":";
-		urlDB += portNumber + "/" + dbName;
-		Connection connect = DriverManager.getConnection(urlDB, connectionProps);
-*/
-		/*
-		// creation de la table Personne
-		{
-			String createString = "CREATE TABLE Personne ( " + "ID INTEGER  AUTO_INCREMENT, "
-					+ "NOM varchar(40) NOT NULL, " + "PRENOM varchar(40) NOT NULL, " + "PRIMARY KEY (ID))";
-			Statement stmt = connect.createStatement();
-			stmt.executeUpdate(createString);
-			System.out.println("1) creation table Personne\n");
-		}*/
 		{
 			// creation de la table Personne
 			Personne.createTable();
 		}
 
-		// ajout de personne avec requete preparee
 		{
-			String SQLPrep = "INSERT INTO Personne (nom, prenom) VALUES (?,?);";
-			PreparedStatement prep;
-			// l'option RETURN_GENERATED_KEYS permet de recuperer l'id (car
-			// auto-increment)
-			prep = connect.prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
-			prep.setString(1, "Spielberg");
-			prep.setString(2, "Steven");
-			prep.executeUpdate();
+			Personne personne = new Personne("Spielberg", "Steven");
+			personne.save();
 			System.out.println("2) ajout Steven Spielberg\n");
 		}
 
-		// ajout second personne
-		{
-			String SQLPrep = "INSERT INTO Personne (nom, prenom) VALUES (?,?);";
-			PreparedStatement prep = connect.prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
-			prep.setString(1, "Scott");
-			prep.setString(2, "Ridley");
-			prep.executeUpdate();
-			System.out.println("3) ajout Ridley Scott");
 
-			// recuperation de la derniere ligne ajoutee (auto increment)
-			// recupere le nouvel id
-			int autoInc = -1;
-			ResultSet rs = prep.getGeneratedKeys();
-			if (rs.next()) {
-				autoInc = rs.getInt(1);
-			}
-			System.out.print("  ->  id utilise lors de l'ajout : ");
-			System.out.println(autoInc);
+		{
+			Personne personne2 = new Personne("Scott","Ridley");
+			personne2.save();
+			System.out.println("3) ajout Ridley Scott");
 			System.out.println();
 		}
 
-		/*
-		// recuperation de toutes les personnes + affichage
-		{
-			System.out.println("4) Recupere les personnes de la table Personne");
-			String SQLPrep = "SELECT * FROM Personne;";
-			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-			prep1.execute();
-			ResultSet rs = prep1.getResultSet();
-			// s'il y a un resultat
-			while (rs.next()) {
-				String nom = rs.getString("nom");
-				String prenom = rs.getString("prenom");
-				int id = rs.getInt("id");
-				System.out.println("  -> (" + id + ") " + nom + ", " + prenom);
-			}
-			System.out.println();
-		}*/
 
 		{
 			//findAll
@@ -108,37 +42,10 @@ public class PrincipaleJDBC {
 			ArrayList<Personne> personnes = Personne.findAll();
 		}
 
-/*
-		// suppression de la personne 1
-		{
-			PreparedStatement prep = connect.prepareStatement("DELETE FROM Personne WHERE id=?");
-			prep.setInt(1, 1);
-			prep.execute();
-			System.out.println("5) Suppression personne id 1 (Spielberg)");
-			System.out.println();
-		}
-*/
 		{
 			Personne personne = Personne.findById(1);
 			personne.delete();
 		}
-		/*// recuperation de la seconde personne + affichage
-		{
-			System.out.println("6) Recupere personne d'id 2");
-			String SQLPrep = "SELECT * FROM Personne WHERE id=?;";
-			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-			prep1.setInt(1, 2);
-			prep1.execute();
-			ResultSet rs = prep1.getResultSet();
-			// s'il y a un resultat
-			if (rs.next()) {
-				String nom = rs.getString("nom");
-				String prenom = rs.getString("prenom");
-				int id = rs.getInt("id");
-				System.out.println("  -> (" + id + ") " + nom + ", " + prenom);
-			}
-			System.out.println();
-		}*/
 
 		{
 			System.out.println("6) Recupere personne d'id 2");
@@ -149,44 +56,22 @@ public class PrincipaleJDBC {
 		}
 
 
-		// met a jour personne 2
 		{
-			String SQLprep = "update Personne set nom=?, prenom=? where id=?;";
-			PreparedStatement prep = connect.prepareStatement(SQLprep);
-			prep.setString(1, "S_c_o_t_t");
-			prep.setString(2, "R_i_d_l_e_y");
-			prep.setInt(3, 2);
-			prep.execute();
-			System.out.println("7) Effectue modification Personne id 2");
+			Personne personne = Personne.findById(2);
+			personne.setNom("S_c_o_t_t");
+			personne.setPrenom("R_i_d_l_e_y");
+			personne.save();
 			System.out.println();
 		}
 
 		// recuperation de la seconde personne + affichage
 		{
 			System.out.println("8) Affiche Personne id 2 apres modification");
-			String SQLPrep = "SELECT * FROM Personne WHERE id=?;";
-			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-			prep1.setInt(1, 2);
-			prep1.execute();
-			ResultSet rs = prep1.getResultSet();
-			// s'il y a un resultat
-			if (rs.next()) {
-				String nom = rs.getString("nom");
-				String prenom = rs.getString("prenom");
-				int id = rs.getInt("id");
-				System.out.println("  -> (" + id + ") " + nom + ", " + prenom);
-			}
+			Personne pers = Personne.findById(2);
 			System.out.println();
 		}
 
-		/*
-		// suppression de la table personne
-		{
-			String drop = "DROP TABLE Personne";
-			Statement stmt = connect.createStatement();
-			stmt.executeUpdate(drop);
-			System.out.println("9) Supprime table Personne");
-		}*/
+
 		{
 			Personne.deleteTable();
 		}
