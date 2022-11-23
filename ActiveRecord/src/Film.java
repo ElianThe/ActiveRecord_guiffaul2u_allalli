@@ -36,8 +36,8 @@ public class Film {
         return film;
     }
 
-    public void getRealiateur(){
-        throw new Error("TODO");
+    public Personne getRealiateur() throws SQLException {
+        return Personne.findById(this.id_real);
     }
 
     public String getTitre() {
