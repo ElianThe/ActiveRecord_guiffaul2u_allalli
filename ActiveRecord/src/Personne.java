@@ -103,6 +103,17 @@ public class Personne {
         System.out.println("9) Supprime table Personne");
     }
 
+    public void delete () throws SQLException {
+        Connection connect = DBConnection.getConnect();
+        String statement = "DELETE from Personne where id = ?";
+        PreparedStatement ps = connect.prepareStatement(statement);
+        ps.setInt(1, this.id);
+        ps.execute();
+        this.id = -1;
+        System.out.println("5) Suppression personne id 1 (Spielberg)");
+        System.out.println();
+    }
+
 
 
 }

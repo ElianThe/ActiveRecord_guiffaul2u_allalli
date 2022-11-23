@@ -108,7 +108,7 @@ public class PrincipaleJDBC {
 			ArrayList<Personne> personnes = Personne.findAll();
 		}
 
-
+/*
 		// suppression de la personne 1
 		{
 			PreparedStatement prep = connect.prepareStatement("DELETE FROM Personne WHERE id=?");
@@ -117,7 +117,11 @@ public class PrincipaleJDBC {
 			System.out.println("5) Suppression personne id 1 (Spielberg)");
 			System.out.println();
 		}
-
+*/
+		{
+			Personne personne = Personne.findById(1);
+			personne.delete();
+		}
 		/*// recuperation de la seconde personne + affichage
 		{
 			System.out.println("6) Recupere personne d'id 2");
