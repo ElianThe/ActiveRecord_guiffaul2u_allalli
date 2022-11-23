@@ -76,6 +76,13 @@ public class PrincipaleJDBC {
 			Personne.deleteTable();
 		}
 
+		{
+			Film film = Film.findById(1);
+			System.out.println(film.getTitre());
+			System.out.println(film.getId());
+			System.out.println(film.getId_real());
+		}
+
 	}
 
 }
