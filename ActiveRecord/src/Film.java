@@ -36,6 +36,10 @@ public class Film {
         return film;
     }
 
+    public void getRealiateur(){
+        throw new Error("TODO");
+    }
+
     public String getTitre() {
         return titre;
     }
