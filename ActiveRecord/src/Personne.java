@@ -14,10 +14,6 @@ public class Personne {
         this.prenom = firstName;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public static ArrayList findAll() throws SQLException {
         ArrayList<Personne> personnes = new ArrayList<>();
         Connection connect = DBConnection.getConnect();
@@ -61,13 +57,13 @@ public class Personne {
         return pers;
     }
 
-    public ArrayList<Personne> findByName(String name) throws SQLException {
+    public static ArrayList<Personne> findByName(String name) throws SQLException {
         // On crée une liste de Personne vide
         ArrayList<Personne> lPersonnes = new ArrayList<>();
         // On récupère la connection à la base de données
         Connection connect = DBConnection.getConnect();
         // On crée une requête qui Select toutes les Personnes dont le nom vaut name
-        String statement = "SELECT prenom, id FROM Personne WHERE name=?";
+        String statement = "SELECT prenom, id FROM Personne WHERE nom=?";
         PreparedStatement ps = connect.prepareStatement(statement);
         ps.setString(1, name);
         // On exécute la requête
@@ -80,6 +76,7 @@ public class Personne {
             int id = rs.getInt("id");
             Personne pers = new Personne(name, prenom);
             pers.setId(id);
+            lPersonnes.add(pers);
         }
         return lPersonnes;
     }
@@ -153,6 +150,9 @@ public class Personne {
     }
 
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setNom(String nom) {
         this.nom = nom;
