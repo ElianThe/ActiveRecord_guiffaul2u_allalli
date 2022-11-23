@@ -84,6 +84,25 @@ public class Personne {
         return lPersonnes;
     }
 
+    public static void createTable () throws SQLException {
+        //connection créée
+        Connection connec = DBConnection.getConnect();
+        //On crée une requete qui permet de créer la table personne
+        String createString = "CREATE TABLE Personne ( " + "ID INTEGER  AUTO_INCREMENT, "
+                + "NOM varchar(40) NOT NULL, " + "PRENOM varchar(40) NOT NULL, " + "PRIMARY KEY (ID))";
+        Statement ps = connec.createStatement();
+        ps.executeUpdate(createString);
+        System.out.println("1) creation table Personne\n");
+    }
+
+    public static void deleteTable() throws SQLException {
+        Connection connect = DBConnection.getConnect();
+        String deleteString = "DROP TABLE Personne;";
+        Statement statement = connect.createStatement();
+        statement.executeUpdate(deleteString);
+        System.out.println("9) Supprime table Personne");
+    }
+
 
 
 }

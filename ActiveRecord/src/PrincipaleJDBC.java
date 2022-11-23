@@ -36,6 +36,7 @@ public class PrincipaleJDBC {
 		urlDB += portNumber + "/" + dbName;
 		Connection connect = DriverManager.getConnection(urlDB, connectionProps);
 */
+		/*
 		// creation de la table Personne
 		{
 			String createString = "CREATE TABLE Personne ( " + "ID INTEGER  AUTO_INCREMENT, "
@@ -43,6 +44,10 @@ public class PrincipaleJDBC {
 			Statement stmt = connect.createStatement();
 			stmt.executeUpdate(createString);
 			System.out.println("1) creation table Personne\n");
+		}*/
+		{
+			// creation de la table Personne
+			Personne.createTable();
 		}
 
 		// ajout de personne avec requete preparee
@@ -170,12 +175,16 @@ public class PrincipaleJDBC {
 			System.out.println();
 		}
 
+		/*
 		// suppression de la table personne
 		{
 			String drop = "DROP TABLE Personne";
 			Statement stmt = connect.createStatement();
 			stmt.executeUpdate(drop);
 			System.out.println("9) Supprime table Personne");
+		}*/
+		{
+			Personne.deleteTable();
 		}
 
 	}
