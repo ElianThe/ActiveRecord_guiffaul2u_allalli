@@ -53,7 +53,9 @@ public class TestPersonne {
         Personne pers =  Personne.findById(1);
 
         //verification des resultats
-        assertEquals(personne, pers, "ça devrait etre le meme objet");
+        assertEquals(1, pers.getId(), "L'id doit être 1");
+        assertEquals("Steven", pers.getPrenom(), "Le prénom doit être Steven");
+        assertEquals("Spielberg", pers.getNom(), "Le nom doit être Spielberg");
     }
 
     @Test

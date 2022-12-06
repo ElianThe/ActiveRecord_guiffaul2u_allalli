@@ -85,10 +85,14 @@ public class Personne {
         //connection créée
         Connection connec = DBConnection.getConnect();
         //On crée une requete qui permet de créer la table personne
-        String createString = "CREATE TABLE Personne ( " + "ID INTEGER  AUTO_INCREMENT, "
-                + "NOM varchar(40) NOT NULL, " + "PRENOM varchar(40) NOT NULL, " + "PRIMARY KEY (ID))";
+        String createString = "CREATE TABLE Personne ( " + "ID INT(11), "
+                + "NOM varchar(40) NOT NULL, " + "PRENOM varchar(40) NOT NULL);";
         Statement ps = connec.createStatement();
         ps.executeUpdate(createString);
+        ps.executeUpdate("ALTER TABLE `Personne`" +
+                "  ADD PRIMARY KEY (`id`);");
+        ps.executeUpdate("ALTER TABLE `Personne`" +
+                "  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;");
         System.out.println("1) creation table Personne\n");
     }
 

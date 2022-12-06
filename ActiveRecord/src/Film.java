@@ -1,7 +1,4 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Film {
     private String titre;
@@ -50,5 +47,33 @@ public class Film {
 
     public int getId_real() {
         return id_real;
+    }
+
+    public static void createTable () throws SQLException {
+        //connection créée
+        Connection connec = DBConnection.getConnect();
+        //On crée une requete qui permet de créer la table film
+        String createString = "CREATE TABLE `Film` (" +
+                "  `id` int(11) NOT NULL," +
+                "  `titre` varchar(40) NOT NULL," +
+                "  `id_rea` int(11) DEFAULT NULL" +
+                ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+        Statement ps = connec.createStatement();
+        ps.executeUpdate(createString);
+        ps.executeUpdate("ALTER TABLE `Film`" +
+                "  ADD PRIMARY KEY (`id`)," +
+                "  ADD KEY `id_rea` (`id_rea`);");
+        ps.executeUpdate("ALTER TABLE `Film`" +
+                "  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;");
+        ps.executeUpdate("ALTER TABLE `Film`" +
+                "  ADD CONSTRAINT `film_ibfk_1` FOREIGN KEY (`id_rea`) REFERENCES `Personne` (`id`);");
+    }
+
+    public static void deleteTable() throws SQLException {
+        // On récupère la connexion à la base
+        Connection connect = DBConnection.getConnect();
+        // On lance une requête de suppression de la table Film
+        Statement statement = connect.createStatement();
+        statement.executeUpdate("DROP TABLE Film");
     }
 }
