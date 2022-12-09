@@ -104,17 +104,38 @@ public class TestFilm {
     }
 
     @Test
-    public void testSaveNew() throws SQLException, RealisateurAbsentException {
+    /**
+     * Test de la methode saveNew dans un cas normal où un film est réalisé par un objet Personne présent dans la base
+     */
+    public void testSaveNew_OK() throws SQLException, RealisateurAbsentException {
         //preparation des donnees
-        Personne pers = new Personne("Nom","Prenom");
-        pers.save();
-        Film film = new Film("Test", pers);
+        Film film = new Film("Test", Personne.findById(1));
 
         //methode testee
         film.save();
 
         //verification des resultats
         assertEquals(film, Film.findById(8));
+    }
+
+    @Test
+    /**
+     * Test de la methode saveNew dans un cas où un film est réalisé par un objet Personne pas encore dans la base
+     */
+    public void testSaveNew_KO() throws SQLException, RealisateurAbsentException {
+        //preparation des donnees
+        Personne pers = new Personne("Prénom","Nom");
+        Film film = new Film("Test", pers);
+
+        //methode testee
+        RealisateurAbsentException thrown = assertThrows(
+                RealisateurAbsentException.class,
+                () -> film.save(),
+                "L'exception RealisateurAbsentException doit être levée"
+        );
+
+        //verification des resultats
+        assertTrue(thrown.getMessage().contentEquals("Le realisateur n'existe pas dans la base"));
     }
 
     @Test

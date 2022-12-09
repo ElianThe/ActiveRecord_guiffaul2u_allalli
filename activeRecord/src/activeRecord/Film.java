@@ -105,7 +105,7 @@ public class Film {
     }
 
     public void save() throws SQLException, RealisateurAbsentException {
-        if (id_rea == -1) throw new RealisateurAbsentException();
+        if (id_rea == -1) throw new RealisateurAbsentException("Le realisateur n'existe pas dans la base");
         else {
             if (id == -1) {
                 saveNew();
