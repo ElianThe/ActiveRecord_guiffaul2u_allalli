@@ -1,3 +1,4 @@
+import activeRecord.DBConnection;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
@@ -17,8 +18,8 @@ public class DbConnectionTest {
         java.sql.Connection c1;
         Connection c2;
         //methode à tester
-         c1 = DBConnection.getConnect();
-        c2 = DBConnection.getConnect();
+         c1 = DBConnection.getConnection();
+        c2 = DBConnection.getConnection();
         //verification
         assertEquals(c1, c2, "ça devrait etre la meme connection");
     }
@@ -29,10 +30,10 @@ public class DbConnectionTest {
         DBConnection db1;
         db1 = DBConnection.getInstance();
         Connection c1, c2;
-        c1 = DBConnection.getConnect();
+        c1 = DBConnection.getConnection();
         db1.setNomDB("saes3");
         //methode à tester
-        c2 = DBConnection.getConnect();
+        c2 = DBConnection.getConnection();
         //verification
         assertNotEquals(c1, c2, "une connection vers saes3 devrait etre fait");
     }

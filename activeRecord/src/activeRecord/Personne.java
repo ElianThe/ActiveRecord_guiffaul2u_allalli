@@ -1,3 +1,5 @@
+package activeRecord;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class Personne {
 
     public static ArrayList findAll() throws SQLException {
         ArrayList<Personne> personnes = new ArrayList<>();
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
 
         String SQLPrep = "SELECT * FROM Personne;";
         PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -40,7 +42,7 @@ public class Personne {
         Personne pers = null;
         String SQLPrep = "SELECT * FROM Personne where id = ?;";
         DBConnection.getInstance();
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
         PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
         prep1.setInt(1, id);
         prep1.execute();
@@ -58,10 +60,10 @@ public class Personne {
     }
 
     public static ArrayList<Personne> findByName(String name) throws SQLException {
-        // On crée une liste de Personne vide
+        // On crée une liste de activeRecord.Personne vide
         ArrayList<Personne> lPersonnes = new ArrayList<>();
         // On récupère la connection à la base de données
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
         // On crée une requête qui Select toutes les Personnes dont le nom vaut name
         String statement = "SELECT prenom, id FROM Personne WHERE nom=?";
         PreparedStatement ps = connect.prepareStatement(statement);
@@ -83,29 +85,26 @@ public class Personne {
 
     public static void createTable () throws SQLException {
         //connection créée
-        Connection connec = DBConnection.getConnect();
+        DBConnection db = DBConnection.getInstance();
+        Connection connec = DBConnection.getConnection();
         //On crée une requete qui permet de créer la table personne
-        String createString = "CREATE TABLE Personne ( " + "ID INT(11), "
+        String createString = "CREATE TABLE IF NOT EXISTS Personne ( " + "ID INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT, "
                 + "NOM varchar(40) NOT NULL, " + "PRENOM varchar(40) NOT NULL);";
         Statement ps = connec.createStatement();
         ps.executeUpdate(createString);
-        ps.executeUpdate("ALTER TABLE `Personne`" +
-                "  ADD PRIMARY KEY (`id`);");
-        ps.executeUpdate("ALTER TABLE `Personne`" +
-                "  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;");
-        System.out.println("1) creation table Personne\n");
+        System.out.println("1) creation table activeRecord.Personne\n");
     }
 
     public static void deleteTable() throws SQLException {
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
         String deleteString = "DROP TABLE Personne;";
         Statement statement = connect.createStatement();
         statement.executeUpdate(deleteString);
-        System.out.println("9) Supprime table Personne");
+        System.out.println("9) Supprime table activeRecord.Personne");
     }
 
     public void delete () throws SQLException {
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
         String statement = "DELETE from Personne where id = ?";
         PreparedStatement ps = connect.prepareStatement(statement);
         ps.setInt(1, this.id);
@@ -124,19 +123,19 @@ public class Personne {
     }
 
     private void update () throws SQLException {
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
         String statement = "update Personne set nom = ?, prenom = ? where id = ?;";
         PreparedStatement ps = connect.prepareStatement(statement);
         ps.setString(1, this.nom);
         ps.setString(2, this.prenom);
         ps.setInt(3, this.id);
         ps.executeUpdate();
-        System.out.println("7) Effectue modification Personne id 2");
+        System.out.println("7) Effectue modification activeRecord.Personne id 2");
         System.out.println();
     }
 
     private void saveNew() throws SQLException {
-        Connection connect = DBConnection.getConnect();
+        Connection connect = DBConnection.getConnection();
         String statement = "INSERT INTO Personne(nom, prenom) VALUES (?, ?);";
         PreparedStatement ps = connect.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, this.nom);

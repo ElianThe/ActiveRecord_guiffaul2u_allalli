@@ -1,3 +1,5 @@
+import activeRecord.DBConnection;
+import activeRecord.Personne;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,10 +17,9 @@ public class TestPersonne {
 
     @BeforeEach
     public void initTable() throws SQLException {
-        DBConnection db = DBConnection.getInstance();
         // Utilisation de la méthode statique createTable
         Personne.createTable();
-        // On crée des nouvelles Personne qu'on ajoute à la table
+        // On crée des nouvelles activeRecord.Personne qu'on ajoute à la table
         personne = new Personne("Spielberg", "Steven");
         personne.save();
         (new Personne("Scott", "Ridley")).save();
@@ -50,7 +51,7 @@ public class TestPersonne {
     @Test
     public void testFindById() throws SQLException {
         //methode testee
-        Personne pers =  Personne.findById(1);
+        Personne pers = Personne.findById(1);
 
         //verification des resultats
         assertEquals(1, pers.getId(), "L'id doit être 1");

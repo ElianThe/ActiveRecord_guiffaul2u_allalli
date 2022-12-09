@@ -1,3 +1,5 @@
+package activeRecord;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -42,7 +44,7 @@ public class DBConnection {
         return instance;
     }
 
-    public static Connection getConnect(){
+    public static Connection getConnection(){
         return connect;
     }
 
